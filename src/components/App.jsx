@@ -1,23 +1,31 @@
 import { ContactForm } from './ContactForm/ContactForm';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Filter } from './Filter/Filter';
 import { ContactList } from './ContactList/ContactList';
 import Notiflix from 'notiflix';
+import {useLocalStorage} from '../hooks/useLocalStorage'
 
 const LOCAL_STORAGE_KEY = 'arrayOfContacts';
 
+
+
 export const App = () => {
-  const [contacts, setContacts] = useState(getLocalStorageContacts() ?? []);
+  
   const [filter, setFilter] = useState('');
+  const [contacts, setContacts] = useLocalStorage(LOCAL_STORAGE_KEY, []);
 
-  useEffect(() => {
-    const stringifiedContacts = JSON.stringify(contacts);
-    localStorage.setItem(LOCAL_STORAGE_KEY, stringifiedContacts);
-  }, [contacts]);
+  // const [storedInfo, setStoredInfo] = useLocalStorage(LOCAL_STORAGE_KEY);
+// з 10 по 16 рядки окрім фільтра кастомний хук забирання з локал сторадж (отримує ключ до локал і повертає стйейт)
+  // useEffect(() => {
+  //   setStoredInfo()
+    // const stringifiedContacts = JSON.stringify(contacts);
+    // localStorage.setItem(LOCAL_STORAGE_KEY, stringifiedContacts);
+  // }, [contacts]);
 
-  function getLocalStorageContacts() {
-    return JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
-  }
+
+  // function getLocalStorageContacts() {
+  //   return JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) ?? [];
+  // }
 
   const addNewContact = newContact => {
     if (contacts.some(contact => contact.name === newContact.name)) {
