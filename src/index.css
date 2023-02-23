@@ -17,6 +17,9 @@ code {
   box-sizing: border-box;
 }
 
+div {
+  text-align: center;
+}
 
 body,
 h1,
@@ -27,4 +30,5 @@ p,
 ul,
 li {
   margin: 0;
+  margin-bottom: 20px;
 }

@@ -1,19 +1,26 @@
 import css from './ContactList.module.css';
-import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
+import { deleteContact } from 'redux/contactsSlice';
 
-export const ContactList = ({ contactsData, deleteContact }) => {
+export const ContactList = () => {
+  const dispatch = useDispatch();
+
+  const filteredContacts = useSelector(state => {
+    return state.contactsData.contacts.filter(({ name }) =>
+      name.toLowerCase().includes(state.contactsData.filter.toLowerCase())
+    );
+  });
+
   return (
     <div className={css.container}>
       <ul className={css.list}>
-        {contactsData.map(({ id, name, number }) => (
+        {filteredContacts.map(({ id, name, number }) => (
           <li className={css.listItem} key={id}>
             <span className={css.name}>{name}:</span>
             <span className={css.number}>{number}</span>
             <button
               className={css.deleteBtn}
-              onClick={() => {
-                deleteContact(id);
-              }}
+              onClick={() => dispatch(deleteContact(id))}
             >
               Delete
             </button>
@@ -22,15 +29,4 @@ export const ContactList = ({ contactsData, deleteContact }) => {
       </ul>
     </div>
   );
-};
-
-ContactList.propTypes = {
-  contactsData: PropTypes.arrayOf(
-    PropTypes.exact({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
-    })
-  ).isRequired,
-  deleteContact: PropTypes.func.isRequired,
 };
