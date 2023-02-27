@@ -2,15 +2,12 @@ import css from './Filter.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { setFilter } from 'redux/contactsSlice';
 import Notiflix from 'notiflix';
+import { selectContacts, selectFilter } from 'redux/selectors';
 
 export const Filter = () => {
   const dispatch = useDispatch();
-  const filter = useSelector(state => {
-    return state.contactsData.filter;
-  });
-  const contacts = useSelector(state => {
-    return state.contactsData.contacts;
-  });
+  const filter = useSelector(selectFilter);
+  const contacts = useSelector(selectContacts);
 
   const handleFilter = event => {
     const value = event.target.value.toLowerCase();
